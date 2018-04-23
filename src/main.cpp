@@ -73,6 +73,7 @@ int main()
 			double sense_theta = std::stod(j[1]["sense_theta"].get<std::string>());
 
 			pf.init(sense_x, sense_y, sense_theta, sigma_pos);
+
 		  }
 		  else {
 			// Predict the vehicle's next state from previous (noiseless control) data.
@@ -111,8 +112,15 @@ int main()
         	}
 
 		  // Update the weights and resample
+      // my test
+      //cout << "after init" << endl;
+      //cout << pf.particles[12].weight << endl;
 		  pf.updateWeights(sensor_range, sigma_landmark, noisy_observations, map);
+      //cout << "after update" << endl;
+      //cout << pf.particles[12].weight << endl;
 		  pf.resample();
+      //cout << "after resample" << endl;
+      //cout << pf.particles[12].weight << endl;
 
 		  // Calculate and output the average weighted error of the particle filter over all time steps so far.
 		  vector<Particle> particles = pf.particles;
@@ -121,6 +129,10 @@ int main()
 		  Particle best_particle;
 		  double weight_sum = 0.0;
 		  for (int i = 0; i < num_particles; ++i) {
+        // my test
+        // cout << pf.particles[12].weight << endl;
+        // my test
+        //cout << "test: " << num_particles << endl;
 			if (particles[i].weight > highest_weight) {
 				highest_weight = particles[i].weight;
 				best_particle = particles[i];
